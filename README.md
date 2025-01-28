@@ -17,7 +17,6 @@ Before using the Loan API, ensure the following dependencies and tools are insta
 
 - Java 21 or higher
 - Maven 3.6+
-- A relational database (e.g., MySQL or PostgreSQL)
 - Postman (optional, for testing endpoints)
 
 ## Installation and Setup
@@ -35,17 +34,7 @@ Before using the Loan API, ensure the following dependencies and tools are insta
    mvn clean package
    ```
 
-3. **Configure the Database** Update the `application.properties` file located in the `src/main/resources` directory with your database configuration:
-
-   ```properties
-   spring.datasource.url=jdbc:mysql://localhost:3306/loan_db
-   spring.datasource.username=your_username
-   spring.datasource.password=your_password
-   spring.jpa.hibernate.ddl-auto=update
-   spring.jpa.show-sql=true
-   ```
-
-4. **Run the Application** Start the application using the built JAR file:
+3. **Run the Application** Start the application using the built JAR file:
 
    ```bash
    java -jar target/loan-api-0.0.1-SNAPSHOT.jar
@@ -57,7 +46,7 @@ Before using the Loan API, ensure the following dependencies and tools are insta
    mvn spring-boot:run
    ```
 
-5. **Access the API** The application will be available at:
+4. **Access the API** The application will be available at:
 
    ```
    http://localhost:8080
@@ -90,7 +79,7 @@ Loan created successfully!
 
 #### 2. Retrieve Loan Details
 
-**GET** `/api/listInstallment/{loanId}`
+**GET** `/api/v1/listInstallment/{loanId}`
 
 Response:
 
@@ -155,7 +144,7 @@ Response:
 
 #### 3. List All Loans
 
-**GET** `/api/loans{customerId}`
+**GET** `/api/v1/loans{customerId}`
 
 Response:
 
