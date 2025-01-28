@@ -35,7 +35,7 @@ class LoanServiceTest {
     private LoanService loanService;
 
     @Test
-    void createLoan_validParameters_successful() {
+    void createLoanSuccessfulTest() {
         when(customerService.customerHasLimit(anyLong(), anyDouble())).thenReturn(true);
 
         Loan loan = new Loan(1L, 5000.0, 12, LocalDate.now(), false);
@@ -60,7 +60,7 @@ class LoanServiceTest {
 
     @ParameterizedTest
     @MethodSource("provideObjectsForCreateLoan")
-    void createLoan_invalidParameters_unsuccessful(Customer customer, LoanDTO loanDTO) {
+    void createLoanUnsuccessfulTest(Customer customer, LoanDTO loanDTO) {
         when(customerService.customerHasLimit(anyLong(), anyDouble())).thenReturn(false).thenReturn(true).thenReturn(true);
         loanService.createLoan(loanDTO);
         verify(loanRepository, never()).save(any());
@@ -68,8 +68,8 @@ class LoanServiceTest {
     }
 
     @Test
-    void listLoans_givenCustomerId_successful() {
-        when(loanRepository.findByCustomerIdAndOptionalFilters(anyLong(),any(),any())).thenReturn(List.of(new Loan(1L, 5000.0, 12, LocalDate.now(), false)));
+    void listLoansSTest() {
+        when(loanRepository.findByCustomerIdAndOptionalFilters(anyLong(), any(), any())).thenReturn(List.of(new Loan(1L, 5000.0, 12, LocalDate.now(), false)));
         List<Loan> loanList = loanService.listLoans(1L, null, null);
         assertFalse(loanList.isEmpty());
     }
