@@ -186,13 +186,8 @@ Response:
 ````
 ## Testing the API
 
-- Use **Postman** or **curl** to test API endpoints.
-- Example `curl` command to apply for a loan:
-  ```bash
-  curl -X POST http://localhost:8080/api/loans \
-       -H "Content-Type: application/json" \
-       -d '{"customerName": "John Doe", "amount": 5000, "term": 12}'
-  ```
+- Use **Swagger** to test API endpoints.
+- Access it from http://localhost:8080/swagger-ui/index.html
 
 ## Contributing
 
