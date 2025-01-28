@@ -69,8 +69,8 @@ class LoanServiceTest {
 
     @Test
     void listLoans_givenCustomerId_successful() {
-        when(loanRepository.findByCustomerId(anyLong())).thenReturn(List.of(new Loan(1L, 5000.0, 12, LocalDate.now(), false)));
-        List<Loan> loanList = loanService.listLoans(1L);
+        when(loanRepository.findByCustomerIdAndOptionalFilters(anyLong(),any(),any())).thenReturn(List.of(new Loan(1L, 5000.0, 12, LocalDate.now(), false)));
+        List<Loan> loanList = loanService.listLoans(1L, null, null);
         assertFalse(loanList.isEmpty());
     }
 

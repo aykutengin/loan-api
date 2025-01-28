@@ -31,8 +31,8 @@ public class LoanController {
     }
 
     @GetMapping("/listLoans")
-    List<Loan> listLoans(long customerId) {
-        return loanService.listLoans(customerId);
+    List<Loan> listLoans(long customerId, @RequestParam(required = false) Integer numberOfInstallment, @RequestParam(required = false) Boolean isPaid) {
+        return loanService.listLoans(customerId, numberOfInstallment, isPaid);
     }
 
 }

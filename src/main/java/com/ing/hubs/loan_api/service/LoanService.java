@@ -47,8 +47,9 @@ public class LoanService {
         loanInstallmentService.generateInstallments(savedLoan.getId(), savedLoan.getLoanAmount(), savedLoan.getNumberOfInstallment());
     }
 
-    public List<Loan> listLoans(long customerId) {
-        return loanRepository.findByCustomerId(customerId);
+    public List<Loan> listLoans(long customerId, Integer numberOfInstallment, Boolean isPaid) {
+        return loanRepository.findByCustomerIdAndOptionalFilters(customerId, numberOfInstallment, isPaid);
+
     }
 
 }
