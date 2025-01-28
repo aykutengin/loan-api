@@ -2,6 +2,7 @@ package com.ing.hubs.loan_api.service;
 
 import com.ing.hubs.loan_api.entity.Customer;
 import com.ing.hubs.loan_api.repository.CustomerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;
@@ -16,12 +17,12 @@ public class CustomerService {
     }
 
     public boolean customerHasLimit(long customerId, double loanAmount) {
-        Customer customer = customerRepository.findById(customerId).get();
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException("Customer not found with ID: " + customerId));
         return (customer.getCreditLimit() - customer.getUsedCreditLimit()) >= loanAmount;
     }
 
     void updateUsedCreditLimit(long customerId, double totalAmountSpent) {
-        Customer customer = customerRepository.findById(customerId).get();
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException("Customer not found with ID: " + customerId));
         double newUsedCreditLimit = customer.getUsedCreditLimit() - totalAmountSpent;
         customer.setUsedCreditLimit(newUsedCreditLimit);
         customerRepository.save(customer);

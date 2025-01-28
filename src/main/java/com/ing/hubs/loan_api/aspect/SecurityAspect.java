@@ -2,6 +2,7 @@ package com.ing.hubs.loan_api.aspect;
 
 import com.ing.hubs.loan_api.entity.Customer;
 import com.ing.hubs.loan_api.repository.CustomerRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -21,16 +22,8 @@ public class SecurityAspect {
         this.customerRepository = customerRepository;
     }
 
-    @Before("execution(* com.ing.hubs.loan_api.service.LoanService.listLoans(..))")
+    @Before("execution(* com.ing.hubs.loan_api.service.LoanService.listLoans(..)) || execution(* com.ing.hubs.loan_api.service.CustomerService.*(..))")
     public void checkSecurityForLoan(JoinPoint joinPoint) {
-        String customerIdStr = joinPoint.getArgs()[0].toString();
-        if (!isUserAuthenticated(Long.valueOf(customerIdStr))) {
-            throw new SecurityException("User not authenticated!");
-        }
-    }
-
-    @Before("execution(* com.ing.hubs.loan_api.service.CustomerService.*(..))")
-    public void checkSecurityForCustomer(JoinPoint joinPoint) {
         String customerIdStr = joinPoint.getArgs()[0].toString();
         if (!isUserAuthenticated(Long.valueOf(customerIdStr))) {
             throw new SecurityException("User not authenticated!");
@@ -43,7 +36,7 @@ public class SecurityAspect {
             return true;
         }
         User user = (User) authentication.getPrincipal();
-        Customer customer = customerRepository.findById(customerId).get();
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new EntityNotFoundException("Customer not found with ID: " + customerId));
         return user.getUsername().equals(customer.getName() + customer.getSurname());
 
     }

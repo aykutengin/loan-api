@@ -4,6 +4,7 @@ import com.ing.hubs.loan_api.entity.Loan;
 import com.ing.hubs.loan_api.entity.LoanInstallment;
 import com.ing.hubs.loan_api.repository.LoanInstallmentRepository;
 import com.ing.hubs.loan_api.repository.LoanRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,7 +85,7 @@ public class LoanInstallmentService {
 
         //Updating the customer used credit limit
         double totalAmountSpent = paidInstallmentCount * paidLoanInstallmentList.getFirst().getAmount();
-        Loan loan = loanRepository.findById(loanId).get();
+        Loan loan = loanRepository.findById(loanId).orElseThrow(() -> new EntityNotFoundException("Loan not found with ID: " + loanId));
         customerService.updateUsedCreditLimit(loan.getCustomerId(), totalAmountSpent);
 
         //Marking the loan as paid
